@@ -114,8 +114,12 @@ while 1:
         except KeyError:
             print("Invalid ID!")
     if command == 4:
-        del record[input("What employee would you like to delete (ID): ")]
-        db['Info'] = record
+        try:
+            del record[input("What employee would you like to delete (ID): ")]
+            db['Info'] = record
+        except KeyError:
+            print("Invalid Employee!")
+        
     if command == 5:
         record = db['Info']
         for x in record:
@@ -127,3 +131,4 @@ record = db['Info']
 print(record)
 
 db.close()
+
