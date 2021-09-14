@@ -5,15 +5,14 @@ class Student:
         self.chinese = chinese
         self.english = english
         self.science = science
-        self.choices = ['SchoolA', 'SchoolB', 'SchoolC']
-        self.allocation = "None"
+        self.choices = ['SchoolA', 'SchoolB', 'SchoolC', 'None']
+        self.allocation = ""
     def get_score(self):
         return (self.math + self.chinese + self.english + self.science) / 4
     def __str__(self):
         return f"({self.name})"
     def __repr__(self):
         return f"{self.name} scores {self.get_score}"
-
 def load_result():
     students = []
     try:
@@ -26,12 +25,11 @@ def load_result():
         print("File not found")
     return students
 
-
 def main():
     students = load_result()
     m = sorted(students, key=lambda x: x.get_score(), reverse=True)
     for s in range(len(students)):
-        m[s].allocation = m[s].choices[s//5]
+        m[s].allocation = m[s].choices[min(s//5, 3)]
         print(f"{m[s].name} scores {m[s].get_score()} and allocated {m[s].allocation}")
 
         #print(f"{s.name} scores {s.get_score()}, the choices are {', '.join(s.choices)}")
@@ -97,17 +95,11 @@ while 1:
             id = input("Enter employee id to change: ")
             yes = record[id]
             sets =  [input("What is the new name:(Leave empty to remain unchange): "), input("What is the new department (Leave empty to remain unchange: "), input("What is the new title? (Leave empty to remain unchage): ")]
-            if sets[0] == "":
-                record[id].set_name(record[id].get_name())
-            else:
+            if sets[0] != "":
                 record[id].set_name(sets[0])
-            if sets[1] == "":
-                record[id].set_department((record[id].get_department()))
-            else:
+            if sets[1] != "":
                 record[id].set_department(sets[1])
-            if sets[2] == "":
-                record[id].set_title((record[id].get_title()))
-            else:
+            if sets[2] != "":
                 record[id].set_title(sets[2])
             db['Info'] = record
             print(f"Employee: {record[id].get_id()} title updated")
