@@ -22,6 +22,8 @@ while True:
     while 1:
         try:
             weight = float(input("Enter weight(kg): "))
+            if weight <= 0:
+                print("Weight cannot be negative!")
             break
         except ValueError:
             print("Input the correct data type!")

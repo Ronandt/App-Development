@@ -11,7 +11,7 @@ class Phone:
     def set_number(self, number):
         self.__number = number
     def set_owner(self, owner):
-        self.__owenr = owner
+        self.__owner = owner
 record = []
 for x in range(2):
     record.append(Phone(input("Enter phone number: "), input("Enter owner name: ")))
