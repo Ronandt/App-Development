@@ -40,9 +40,9 @@ main()
 
 import shelve
 
-
-record ={}
+record = {}
 db = shelve.open('storage.db', 'c')
+
 
 class Employee:
     def __init__(self, name, id, department, title):
@@ -50,35 +50,47 @@ class Employee:
         self.__id = id
         self.__department = department
         self.__title = title
+
     def get_name(self):
         return self.__name
+
     def get_id(self):
         return self.__id
+
     def get_department(self):
         return self.__department
+
     def get_title(self):
         return self.__title
+
     def set_name(self, name):
         self.__name = name
+
     def set_id(self, id):
         self.__id = id
+
     def set_department(self, department):
         self.__department = department
+
     def set_title(self, title):
         self.__title = title
+
     def __str__(self):
         return f"Name: {self.__name}, Id: {self.__id}, Department: {self.__department}, Title: {self.__title}"
+
     def __repr__(self):
         return f"Name: {self.__name}, Id: {self.__id}, Department: {self.__department}, Title: {self.__title}"
+
+
 while 1:
-    print("Select the program (1-6) to run:\n1. Search for an employee\n2. Add new employee\n3. Update employee details\n4. Delete an employee\n5. Display all employees \n6. Quit the program")
+    print(
+        "Select the program (1-6) to run:\n1. Search for an employee\n2. Add new employee\n3. Update employee details\n4. Delete an employee\n5. Display all employees \n6. Quit the program")
     while 1:
         try:
             command = int(input("Enter your command (1-6)"))
             break
         except ValueError:
             print("Invalid Choice!")
-
 
     if command == 1:
         try:
@@ -88,13 +100,19 @@ while 1:
 
     if command == 2:
         id = input("What is the new employee ID: ")
-        record[id] = Employee(input("What is the new employee name: "), id, input("What is the new employee department: "), input("What is the new employee title: "))
+        if id not in record:
+            record[id] = Employee(input("What is the new employee name: "), id,
+                                  input("What is the new employee department: "), input("What is the new employee title: "))
+        else:
+            print("Employee is already there!")
         db['Info'] = record
     if command == 3:
         try:
             id = input("Enter employee id to change: ")
             yes = record[id]
-            sets =  [input("What is the new name:(Leave empty to remain unchange): "), input("What is the new department (Leave empty to remain unchange: "), input("What is the new title? (Leave empty to remain unchage): ")]
+            sets = [input("What is the new name:(Leave empty to remain unchange): "),
+                    input("What is the new department (Leave empty to remain unchange: "),
+                    input("What is the new title? (Leave empty to remain unchage): ")]
             if sets[0] != "":
                 record[id].set_name(sets[0])
             if sets[1] != "":
@@ -111,11 +129,15 @@ while 1:
             db['Info'] = record
         except KeyError:
             print("Invalid Employee!")
-        
+
     if command == 5:
-        record = db['Info']
-        for x in record:
-            print(f"{record[x].get_name()} (id={record[x].get_id()}) is a {record[x].get_title()} from {record[x].get_department()} department")
+        try:
+            record = db['Info']
+            for x in record:
+                print(
+                    f"{record[x].get_name()} (id={record[x].get_id()}) is a {record[x].get_title()} from {record[x].get_department()} department")
+        except KeyError:
+            print("No employees")
 
     if command == 6:
         break
@@ -123,4 +145,3 @@ record = db['Info']
 print(record)
 
 db.close()
-
