@@ -38,6 +38,7 @@ def main():
 
 main()
 
+
 import shelve
 
 record = {}
@@ -83,6 +84,7 @@ class Employee:
 
 
 while 1:
+    record = db['Info']
     print(
         "Select the program (1-6) to run:\n1. Search for an employee\n2. Add new employee\n3. Update employee details\n4. Delete an employee\n5. Display all employees \n6. Quit the program")
     while 1:
@@ -100,15 +102,22 @@ while 1:
 
     if command == 2:
         id = input("What is the new employee ID: ")
+        record = db['Info']
         if id not in record:
             record[id] = Employee(input("What is the new employee name: "), id,
                                   input("What is the new employee department: "), input("What is the new employee title: "))
+            db['Info'] = record
         else:
             print("Employee is already there!")
-        db['Info'] = record
+
     if command == 3:
+
         try:
+
+
+            print("f")
             id = input("Enter employee id to change: ")
+
             yes = record[id]
             sets = [input("What is the new name:(Leave empty to remain unchange): "),
                     input("What is the new department (Leave empty to remain unchange: "),
@@ -119,23 +128,26 @@ while 1:
                 record[id].set_department(sets[1])
             if sets[2] != "":
                 record[id].set_title(sets[2])
-            db['Info'] = record
+
             print(f"Employee: {record[id].get_id()} title updated")
+            db['Info'] = record
         except KeyError:
             print("Invalid ID!")
     if command == 4:
         try:
+
             del record[input("What employee would you like to delete (ID): ")]
-            db['Info'] = record
+
         except KeyError:
             print("Invalid Employee!")
 
     if command == 5:
         try:
-            record = db['Info']
+
             for x in record:
                 print(
                     f"{record[x].get_name()} (id={record[x].get_id()}) is a {record[x].get_title()} from {record[x].get_department()} department")
+                db['Info'] = record
         except KeyError:
             print("No employees")
 
